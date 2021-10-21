@@ -23,7 +23,6 @@ type VendingMachine struct {
 }
 
 var money float32
-var status Status
 var cCoins int
 
 // NewVendingMachine .
@@ -40,15 +39,15 @@ func (v *VendingMachine) AcceptCoin(coin Coin) {
 		}
 		if coin.Mass() == 5 && coin.Diameter() == 21.21 && coin.Thickness() == 1.95 {
 			money += 0.05
-			status.nickel++
+			v.status.nickel++
 		}
 		if coin.Mass() == 2.26 && coin.Diameter() == 17.91 && coin.Thickness() == 1.35 {
 			money += 0.1
-			status.dime++
+			v.status.dime++
 		}
 		if coin.Mass() == 6.25 && coin.Diameter() == 24.26 && coin.Thickness() == 1.75 {
 			money += 0.25
-			status.quarter++
+			v.status.quarter++
 		}
 	}
 	cCoins++
@@ -56,7 +55,7 @@ func (v *VendingMachine) AcceptCoin(coin Coin) {
 }
 
 func (v *VendingMachine) LimitReached(cCoins int) bool {
-	if cCoins == 100 {
+	if cCoins >= 5 {
 		fmt.Printf("COINS LIMIT REACHED\n")
 		return true
 	}
