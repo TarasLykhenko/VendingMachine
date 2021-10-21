@@ -6,11 +6,11 @@ inventory, and dispense products.  All the things that you might expect a vendin
 
 The point of this kata to to provide a larger than trivial exercise that can be used to practice TDD.  A significant portion of the effort will be in determining what tests should be written and, more importantly, written next.
 
-constrains
+Constraints
 ==========
 
-The vending machine can hold a maximum of 100 coins simultaneously.
-The vending machine can hold a maximum of 20 items simultaneously.
+1. The vending machine can hold a maximum of 100 coins simultaneously.
+1. The vending machine can hold a maximum of 20 items simultaneously.
 
 
 Features
@@ -97,7 +97,7 @@ display EXACT CHANGE ONLY instead of INSERT COIN.
 Restock
 -----------------
 
-_As a vendor_
+_As a vendor_  
 _I want to add products_  
 _So that customer will use the vending machine to buy products_ 
 
@@ -106,8 +106,8 @@ The vendor can restock the vending machine with products.
 Retrive money
 -----------------
 
-_As a vendor_
-_I want to be able to retrieve money without compromising the ability to sell products _  
+_As a vendor_  
+_I want to be able to retrieve money without compromising the ability to sell products_  
 _So that I can make a profit and the vending machine continue to operate_
 
 The vendor can push a button that will retrieve the maximum amount of coins while selling at least one of each product type without exact change.
