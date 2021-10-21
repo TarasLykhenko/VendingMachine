@@ -44,8 +44,8 @@ func (v *VendingMachine) SelectProduct(product string) {
 }
 
 // MakeChange .
-func (v *VendingMachine) MakeChange() {
-
+func (v *VendingMachine) MakeChange(money float32, productPrice float32) float32 {
+	return money - productPrice
 }
 
 // ReturnCoins .
