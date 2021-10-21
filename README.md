@@ -16,7 +16,7 @@ Constraints
 Features
 ========
 
-Accept Coins
+Accept Coins - Edson, Samuel
 ------------
   
 _As a vendor_  
