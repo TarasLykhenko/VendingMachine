@@ -19,6 +19,7 @@ type Status struct {
 
 // VendingMachine .
 type VendingMachine struct {
+	status Status
 }
 
 var money float32
@@ -50,7 +51,6 @@ func (v *VendingMachine) AcceptCoin(coin Coin) {
 			status.quarter++
 		}
 	}
-
 	cCoins++
 
 }
