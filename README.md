@@ -55,7 +55,7 @@ All have an expiration date, size, and weight
 All products make a sound when dropped
 
 
-Make Change
+Make Change - Adonis, Oz
 -----------
 
 _As a vendor_  
@@ -64,7 +64,7 @@ _So that they will use the vending machine again_
 
 When a product is selected that costs less than the amount of money in the machine, then the remaining amount is placed in the coin return.
 
-Return Coins
+Return Coins - Adonis, Oz
 ------------
 
 _As a customer_  
