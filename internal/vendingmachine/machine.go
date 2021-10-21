@@ -54,7 +54,7 @@ func (v *VendingMachine) AcceptCoin(coin Coin) {
 }
 
 func (v *VendingMachine) LimitReached(cCoins int) bool {
-	if cCoins >= 5 {
+	if cCoins >= 100 {
 		fmt.Printf("COINS LIMIT REACHED\n")
 		return true
 	}
