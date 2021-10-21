@@ -14,10 +14,10 @@ endif
 
 .PHONY: all
 
-test.lint:
-	go install golang.org/x/lint/golint
+# test.lint:
+# 	go install golang.org/x/lint/golint
 
-	golint -set_exit_status ./...
+# 	golint -set_exit_status ./...
 
 test.vet:
 	go vet ./...
@@ -25,13 +25,13 @@ test.vet:
 test.unit:
 	go test -v ./... $(GOTEST_OUTPUT)
 
-test.generate.report:
-	go install github.com/jstemmer/go-junit-report
-	go install github.com/axw/gocov/gocov
-	go install github.com/AlekSi/gocov-xml
+# test.generate.report:
+# 	go install github.com/jstemmer/go-junit-report
+# 	go install github.com/axw/gocov/gocov
+# 	go install github.com/AlekSi/gocov-xml
 
-	gocov convert $(GOTEST_OUTPUT_COVERAGE) | gocov-xml > coverage.xml
-	cat $(GOTEST_OUTPUT_RESULTS) | go-junit-report > report.xml
+# 	gocov convert $(GOTEST_OUTPUT_COVERAGE) | gocov-xml > coverage.xml
+# 	cat $(GOTEST_OUTPUT_RESULTS) | go-junit-report > report.xml
 
 
 build.vendingmachine:
@@ -39,4 +39,6 @@ build.vendingmachine:
 
 build: build.vendingmachine
 
-default: test.lint build test.vet test.unit
+# default: test.lint build test.vet test.unit
+
+default: build test.vet test.unit
