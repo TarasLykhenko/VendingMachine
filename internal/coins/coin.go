@@ -1,12 +1,13 @@
 package coins
 
+// Coin an external representation
 type Coin struct {
 	mass      float32
 	diameter  float32
 	thickness float32
 }
 
-// Creates a new coin
+// NewCoin creates a new coin
 func NewCoin(mass float32, diameter float32, thickness float32) *Coin {
 	return &Coin{
 		mass:      mass,
@@ -29,4 +30,3 @@ func (c *Coin) Diameter() float32 {
 func (c *Coin) Thickness() float32 {
 	return c.thickness
 }
-

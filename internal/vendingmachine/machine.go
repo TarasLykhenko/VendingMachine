@@ -1,5 +1,6 @@
 package vendingmachine
 
+//Coin .
 type Coin interface {
 	Mass() float32
 	Diameter() float32
@@ -42,4 +43,8 @@ func (v *VendingMachine) Display() string {
 
 // RestockProducts .
 func (v *VendingMachine) RestockProducts() {
+}
+
+// RetriveMoney .
+func (v *VendingMachine) RetriveMoney() {
 }
