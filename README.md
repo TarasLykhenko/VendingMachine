@@ -6,11 +6,11 @@ inventory, and dispense products.  All the things that you might expect a vendin
 
 The point of this kata to to provide a larger than trivial exercise that can be used to practice TDD.  A significant portion of the effort will be in determining what tests should be written and, more importantly, written next.
 
-constrains
+Constraints
 ==========
 
-The vending machine can hold a maximum of 100 coins simultaneously.
-The vending machine can hold a maximum of 20 items simultaneously.
+1. The vending machine can hold a maximum of 100 coins simultaneously.
+1. The vending machine can hold a maximum of 20 items simultaneously.
 
 
 Features
