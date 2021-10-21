@@ -20,7 +20,7 @@ func main() {
 		text, _ := reader.ReadString('\n')
 		trimtext := strings.Trim(text, "\n")
 		fmt.Println(text)
-		commands := strings.Split(trimtext, ",")
+		commands := strings.Split(strings.ToUpper(trimtext), ",")
 
 		for _, c := range commands {
 			switch c {
