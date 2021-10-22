@@ -1,6 +1,7 @@
 package vendingmachine
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/TarasLykhenko/vending-machine-kata/internal/products"
@@ -26,7 +27,11 @@ type VendingMachine struct {
 	cCoins int
 	bank   float32
 	stock  []products.IProduct
+	aproduct float32
+	change   float32
 }
+
+var cCoins int
 
 // NewVendingMachine .
 func NewVendingMachine() *VendingMachine {
@@ -114,11 +119,56 @@ func (v *VendingMachine) MakeChange(productPrice float32) {
 }
 
 // ReturnCoins .
-func (v *VendingMachine) ReturnCoins() {
-	if v.amoney != 0 {
-		fmt.Print("CLINK CLINK *NOISE OF " + fmt.Sprintf("%.2f", v.amoney) + "€ IN COINS DROPING* \n")
-		v.amoney = 0
+func (v *VendingMachine) ReturnCoins() (*Status, error) {
+	amoney := v.amoney
+	nickel := v.status.nickel
+	dime := v.status.dime
+	quarter := v.status.quarter
+
+	nickelReturned := 0
+	dimeReturned := 0
+	quarterlReturned := 0
+
+	for amoney >= 0.25 && quarter >= 1 {
+		amoney = amoney - float32(0.25)
+		quarter--
+		quarterlReturned++
 	}
+	for amoney >= 0.10 && dime >= 1 {
+		amoney = amoney - float32(0.10)
+		dime--
+		dimeReturned++
+	}
+	for amoney >= 0.05 && nickel >= 1 {
+		amoney = amoney - float32(0.05)
+		nickel--
+		nickelReturned++
+	}
+	if amoney == 0.0 {
+		// we have enough coins to make the change. transaction done. commit it.
+
+		// update the machine counts
+
+		v.amoney = amoney
+		v.status.nickel = nickel
+		v.status.dime = dime
+		v.status.quarter = quarter
+
+		changeCoins := Status{
+			nickel:  nickelReturned,
+			dime:    dimeReturned,
+			quarter: quarterlReturned,
+		}
+		return &changeCoins, nil
+		// print("Thank you, there is your change:")
+		// print("Quarters : ", quarterlReturned)
+		// print("Dimers: ", dimeReturned)
+		// print("Nickels: ", nickelReturned)
+
+	} else {
+		return nil, errors.New("Not enough coins to return the change")
+	}
+
 }
 
 // Display .
