@@ -61,3 +61,42 @@ func TestReturnCoins(t *testing.T) {
 
 	})
 }
+
+func TestRetriveMoney(t *testing.T) {
+	t.Run("The machine has no coins to retrive", func(t *testing.T) {
+		v := VendingMachine{
+			status: Status{
+				quarter: 3,
+				dime:    3,
+				nickel:  3,
+			},
+		}
+		status, err := v.RetriveMoney()
+
+		retriveCoins := Status{
+			nickel:  0,
+			dime:    0,
+			quarter: 0,
+		}
+		assert.Equal(t, retriveCoins, *status)
+		assert.Nil(t, err)
+	})
+	t.Run("The machine has coins to retrive", func(t *testing.T) {
+		v := VendingMachine{
+			status: Status{
+				quarter: 6,
+				dime:    6,
+				nickel:  6,
+			},
+		}
+		status, err := v.RetriveMoney()
+
+		retriveCoins := Status{
+			nickel:  2,
+			dime:    2,
+			quarter: 2,
+		}
+		assert.Equal(t, retriveCoins, *status)
+		assert.Nil(t, err)
+	})
+}

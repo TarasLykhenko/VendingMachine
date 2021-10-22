@@ -22,11 +22,11 @@ type Status struct {
 
 // VendingMachine .
 type VendingMachine struct {
-	status Status
-	amoney float32
-	cCoins int
-	bank   float32
-	stock  []products.IProduct
+	status   Status
+	amoney   float32
+	cCoins   int
+	bank     float32
+	stock    []products.IProduct
 	aproduct float32
 	change   float32
 }
@@ -199,7 +199,35 @@ func (v *VendingMachine) RestockProducts() {
 }
 
 // RetriveMoney .
-func (v *VendingMachine) RetriveMoney() {
+func (v *VendingMachine) RetriveMoney() (*Status, error) {
+
+	nickelReturned := 0
+	dimeReturned := 0
+	quarterlReturned := 0
+
+	for v.status.quarter > 4 {
+		v.status.quarter--
+		quarterlReturned++
+	}
+	for v.status.dime > 4 {
+		v.status.dime--
+		dimeReturned++
+	}
+	for v.status.nickel > 4 {
+		v.status.nickel--
+		nickelReturned++
+	}
+	retriveCoins := Status{
+		nickel:  nickelReturned,
+		dime:    dimeReturned,
+		quarter: quarterlReturned,
+	}
+
+	print("Quarters : ", quarterlReturned)
+	print("Dimers: ", dimeReturned)
+	print("Nickels: ", nickelReturned)
+
+	return &retriveCoins, nil
 
 }
 
