@@ -11,6 +11,7 @@ func NewChips(flavour string) IProduct {
 	return &chips{
 		product: product{
 			name:             "SUPER CHIPS",
+			command:          "GET-CHIPS",
 			price:            0.5,
 			expirationDate:   time.Now().AddDate(2, 0, 0),
 			weight:           30,

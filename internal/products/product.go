@@ -4,6 +4,7 @@ import "time"
 
 type IProduct interface {
 	Name() string
+	Command() string
 	Price() float32
 	ExpirationDate() time.Time
 	Weight() float32
@@ -12,6 +13,7 @@ type IProduct interface {
 
 type product struct {
 	name             string
+	command          string
 	price            float32
 	expirationDate   time.Time
 	weight           float32
@@ -19,9 +21,10 @@ type product struct {
 }
 
 // NewProduct creates a new product
-func NewProduct(name string, price float32, expirationDate time.Time, weight float32, extraInformation string) *product {
+func NewProduct(name string, command string, price float32, expirationDate time.Time, weight float32, extraInformation string) *product {
 	return &product{
 		name:             name,
+		command:          command,
 		price:            price,
 		expirationDate:   expirationDate,
 		weight:           weight,
@@ -31,23 +34,23 @@ func NewProduct(name string, price float32, expirationDate time.Time, weight flo
 
 func PrdFactory(name string) IProduct {
 	switch name {
-
 	case "COLA":
-		return products.NewCola()
+		return NewCola()
 	case "CHIPS":
-		return products.NewChips("Bacon")
+		return NewChips("Bacon")
 	case "CANDY":
-		return products.NewCandy("Red")
+		return NewCandy("Red")
 	default:
 		return nil
 	}
 }
 
-
-
 // getters
 func (p *product) Name() string {
 	return p.name
+}
+func (p *product) Command() string {
+	return p.command
 }
 func (p *product) Price() float32 {
 	return p.price

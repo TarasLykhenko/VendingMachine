@@ -44,8 +44,10 @@ func main() {
 				vm.RestockProducts()
 			case "RETRIVE-MONEY":
 				vm.RetriveMoney()
+			case "HELP":
+				vm.ReturnCommands()
 			default:
-				fmt.Printf("command: '%s' not supported.\n", c)
+				fmt.Printf("command: '%s' not supported. Use HELP to see commands\n", c)
 			}
 		}
 
