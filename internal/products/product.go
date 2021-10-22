@@ -29,6 +29,22 @@ func NewProduct(name string, price float32, expirationDate time.Time, weight flo
 	}
 }
 
+func PrdFactory(name string) IProduct {
+	switch name {
+
+	case "COLA":
+		return products.NewCola()
+	case "CHIPS":
+		return products.NewChips("Bacon")
+	case "CANDY":
+		return products.NewCandy("Red")
+	default:
+		return nil
+	}
+}
+
+
+
 // getters
 func (p *product) Name() string {
 	return p.name
