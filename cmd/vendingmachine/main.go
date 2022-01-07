@@ -7,11 +7,21 @@ import (
 	"strings"
 
 	"github.com/TarasLykhenko/vending-machine-kata/internal/coins"
+	"github.com/TarasLykhenko/vending-machine-kata/internal/products"
 	"github.com/TarasLykhenko/vending-machine-kata/internal/vendingmachine"
 )
 
 func main() {
-	vm := vendingmachine.NewVendingMachine()
+
+	productList := []products.IProduct{}
+
+	productList = append(productList, products.NewCola())
+	productList = append(productList, products.NewChips("Sea Salt"))
+	productList = append(productList, products.NewChips("Bacon"))
+	productList = append(productList, products.NewCandy("Blue"))
+	productList = append(productList, products.NewCandy("Red"))
+
+	vm := vendingmachine.NewVendingMachine(productList)
 	reader := bufio.NewReader(os.Stdin)
 
 	for {

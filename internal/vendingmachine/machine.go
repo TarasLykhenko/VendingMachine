@@ -22,30 +22,25 @@ type Status struct {
 
 // VendingMachine .
 type VendingMachine struct {
-	status   Status
-	amoney   float32
-	cCoins   int
-	bank     float32
-	stock    []products.IProduct
-	aproduct float32
-	change   float32
+	status        Status
+	currentCredit float32
+	cCoins        int
+	bank          float32
+	stock         []products.IProduct
+	aproduct      float32
+	change        float32
 }
 
 var cCoins int
 
 // NewVendingMachine .
-func NewVendingMachine() *VendingMachine {
+func NewVendingMachine(productList []products.IProduct) *VendingMachine {
 	v := VendingMachine{}
-	v.startupStock()
-	return &v
-}
 
-func (v *VendingMachine) startupStock() {
-	v.stock = append(v.stock, products.NewCola())
-	v.stock = append(v.stock, products.NewChips("Sea Salt"))
-	v.stock = append(v.stock, products.NewChips("Bacon"))
-	v.stock = append(v.stock, products.NewCandy("Blue"))
-	v.stock = append(v.stock, products.NewCandy("Red"))
+	for _, product := range productList {
+		v.stock = append(v.stock, product)
+	}
+	return &v
 }
 
 // AcceptCoin .
@@ -56,15 +51,15 @@ func (v *VendingMachine) AcceptCoin(coin Coin) {
 			fmt.Printf("I DO NOT ACCEPT PENNIES\n")
 		}
 		if coin.Mass() == 5 && coin.Diameter() == 21.21 && coin.Thickness() == 1.95 {
-			v.amoney += 0.05
+			v.currentCredit += 0.05
 			v.status.nickel++
 		}
 		if coin.Mass() == 2.26 && coin.Diameter() == 17.91 && coin.Thickness() == 1.35 {
-			v.amoney += 0.1
+			v.currentCredit += 0.1
 			v.status.dime++
 		}
 		if coin.Mass() == 6.25 && coin.Diameter() == 24.26 && coin.Thickness() == 1.75 {
-			v.amoney += 0.25
+			v.currentCredit += 0.25
 			v.status.quarter++
 		}
 	}
@@ -85,7 +80,7 @@ func (v *VendingMachine) LimitReached(cCoins int) bool {
 // SelectProduct .
 func (v *VendingMachine) SelectProduct(name string) {
 	product := products.PrdFactory(name)
-	if v.amoney <= product.Price() {
+	if v.currentCredit <= product.Price() {
 		fmt.Print("Price: " + fmt.Sprintf("%.2f", product.Price()) + "€\n")
 		fmt.Print("INSERT COIN\n\n")
 		return
@@ -115,12 +110,12 @@ func (v *VendingMachine) DispenseProduct(p products.IProduct) {
 // MakeChange .
 func (v *VendingMachine) MakeChange(productPrice float32) {
 	v.bank += productPrice
-	v.amoney = v.amoney - productPrice
+	v.currentCredit = v.currentCredit - productPrice
 }
 
 // ReturnCoins .
 func (v *VendingMachine) ReturnCoins() (*Status, error) {
-	amoney := v.amoney
+	currentCredit := v.currentCredit
 	nickel := v.status.nickel
 	dime := v.status.dime
 	quarter := v.status.quarter
@@ -129,27 +124,27 @@ func (v *VendingMachine) ReturnCoins() (*Status, error) {
 	dimeReturned := 0
 	quarterlReturned := 0
 
-	for amoney >= 0.25 && quarter >= 1 {
-		amoney = amoney - float32(0.25)
+	for currentCredit >= 0.25 && quarter >= 1 {
+		currentCredit = currentCredit - float32(0.25)
 		quarter--
 		quarterlReturned++
 	}
-	for amoney >= 0.10 && dime >= 1 {
-		amoney = amoney - float32(0.10)
+	for currentCredit >= 0.10 && dime >= 1 {
+		currentCredit = currentCredit - float32(0.10)
 		dime--
 		dimeReturned++
 	}
-	for amoney >= 0.05 && nickel >= 1 {
-		amoney = amoney - float32(0.05)
+	for currentCredit >= 0.05 && nickel >= 1 {
+		currentCredit = currentCredit - float32(0.05)
 		nickel--
 		nickelReturned++
 	}
-	if amoney == 0.0 {
+	if currentCredit == 0.0 {
 		// we have enough coins to make the change. transaction done. commit it.
 
 		// update the machine counts
 
-		v.amoney = amoney
+		v.currentCredit = currentCredit
 		v.status.nickel = nickel
 		v.status.dime = dime
 		v.status.quarter = quarter
@@ -175,11 +170,11 @@ func (v *VendingMachine) ReturnCoins() (*Status, error) {
 func (v *VendingMachine) Display() string {
 	var output string
 
-	if v.amoney == 0 {
+	if v.currentCredit == 0 {
 		output += "INSERT COIN\n"
 	}
 
-	output += fmt.Sprintf("Credit: %.2f€\n\n", v.amoney)
+	output += fmt.Sprintf("Credit: %.2f€\n\n", v.currentCredit)
 
 	for _, product := range v.stock {
 		output += product.Name() + "\n"
