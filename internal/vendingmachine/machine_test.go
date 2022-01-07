@@ -106,4 +106,54 @@ func TestRetriveMoney(t *testing.T) {
 	})
 }
 
-func TestRestockProduct()
+func TestRestockProduct(t *testing.T) {
+	t.Run("Restock product", func(t *testing.T) {
+		v := VendingMachine{
+			status: Status{
+				quarter: 6,
+				dime:    6,
+				nickel:  6,
+			},
+		}
+		err := v.RestockProduct(products.PrdFactory("COLA"))
+		assert.NoError(t, err)
+	})
+}
+
+func TestStockFull(t *testing.T) {
+
+	t.Run("Creating an empty vending machine", func(t *testing.T) {
+
+		v := VendingMachine{
+			stock: []products.IProduct{
+				products.PrdFactory("COLA"),
+				products.PrdFactory("CHIPS"),
+				products.PrdFactory("CANDY"),
+				products.PrdFactory("COLA"),
+				products.PrdFactory("CHIPS"),
+				products.PrdFactory("CANDY"),
+				products.PrdFactory("COLA"),
+				products.PrdFactory("CHIPS"),
+				products.PrdFactory("CANDY"),
+				products.PrdFactory("COLA"),
+				products.PrdFactory("CHIPS"),
+				products.PrdFactory("CANDY"),
+				products.PrdFactory("COLA"),
+				products.PrdFactory("CHIPS"),
+				products.PrdFactory("CANDY"),
+				products.PrdFactory("COLA"),
+				products.PrdFactory("CHIPS"),
+				products.PrdFactory("CANDY"),
+				products.PrdFactory("COLA"),
+				products.PrdFactory("CHIPS"),
+				products.PrdFactory("CANDY"),
+				products.PrdFactory("COLA"),
+				products.PrdFactory("CHIPS"),
+				products.PrdFactory("CANDY"),
+			},
+		}
+
+		err := v.RestockProduct(products.PrdFactory("COLA"))
+		assert.Error(t, err)
+	})
+}

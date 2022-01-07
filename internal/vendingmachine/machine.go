@@ -189,9 +189,24 @@ func (v *VendingMachine) Display() string {
 
 }
 
-// RestockProducts .
-func (v *VendingMachine) RestockProducts() {
+// RestockProduct .
+func (v *VendingMachine) RestockProduct(product products.IProduct) error {
+	if len(v.stock) > 20 {
+		fmt.Print("Wending Machine is FULL\n")
+		return errors.New("Wending Machine is FULL")
+	}
+	v.stock = append(v.stock, product)
 
+	return nil
+}
+
+func (v *VendingMachine) RestockProducts(products []products.IProduct) error {
+	for _, product := range products {
+		if err := v.RestockProduct(product); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // RetriveMoney .
