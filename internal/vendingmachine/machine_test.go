@@ -3,15 +3,20 @@ package vendingmachine
 import (
 	"testing"
 
+	"github.com/TarasLykhenko/vending-machine-kata/internal/products"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewVendingMachine(t *testing.T) {
-	expected := &VendingMachine{}
+	expected := VendingMachine{}
 
-	vm := NewVendingMachine()
+	t.Run("Creating an empty vending machine", func(t *testing.T) {
 
-	assert.Equal(t, expected, vm)
+		productList := []products.IProduct{}
+		vm := NewVendingMachine(productList)
+
+		assert.Equal(t, expected, *vm)
+	})
 }
 
 func TestMakeChange(t *testing.T) {
@@ -19,20 +24,20 @@ func TestMakeChange(t *testing.T) {
 	t.Run("Make change input 2.00, product 0.55", func(t *testing.T) {
 		v := VendingMachine{
 
-			amoney: 2.00,
+			currentCredit: 2.00,
 		}
 		v.MakeChange(0.55)
 
 		expected = 1.45
 
-		assert.Equal(t, expected, v.amoney)
+		assert.Equal(t, expected, v.currentCredit)
 	})
 }
 
 func TestReturnCoins(t *testing.T) {
 	t.Run("The machine has no coins", func(t *testing.T) {
 		v := VendingMachine{
-			amoney: 1.00,
+			currentCredit: 1.00,
 			status: Status{
 				quarter: 0,
 				dime:    0,
@@ -47,7 +52,7 @@ func TestReturnCoins(t *testing.T) {
 	})
 	t.Run("The machine has no money and no coins", func(t *testing.T) {
 		v := VendingMachine{
-			amoney: 0.00,
+			currentCredit: 0.00,
 			status: Status{
 				quarter: 0,
 				dime:    0,
