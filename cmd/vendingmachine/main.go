@@ -18,19 +18,20 @@ func main() {
 		fmt.Println(vm.Display())
 		fmt.Print("Input: ")
 		text, _ := reader.ReadString('\n')
+		trimtext := strings.Trim(text, "\n")
 		fmt.Println(text)
-		commands := strings.Split(text, ",")
+		commands := strings.Split(strings.ToUpper(trimtext), ",")
 
 		for _, c := range commands {
 			switch c {
 			case "PENNY":
-				coins.NewCoin(2.5, 19.05, 1.52)
-			case "NICLE":
-				coins.NewCoin(5, 21.21, 1.95)
+				vm.AcceptCoin(coins.NewCoin(2.5, 19.05, 1.52))
+			case "NICKEL":
+				vm.AcceptCoin(coins.NewCoin(5, 21.21, 1.95))
 			case "DIME":
-				coins.NewCoin(2.26, 17.91, 1.35)
-			case "QUORTER":
-				coins.NewCoin(6.25, 24.26, 1.75)
+				vm.AcceptCoin(coins.NewCoin(2.26, 17.91, 1.35))
+			case "QUARTER":
+				vm.AcceptCoin(coins.NewCoin(6.25, 24.26, 1.75))
 			case "GET-COLA":
 				vm.SelectProduct("COLA")
 			case "GET-CHIPS":
@@ -43,8 +44,10 @@ func main() {
 				vm.RestockProducts()
 			case "RETRIVE-MONEY":
 				vm.RetriveMoney()
+			case "HELP":
+				vm.ReturnCommands()
 			default:
-				fmt.Printf("command: '%s' not supported.\n", c)
+				fmt.Printf("command: '%s' not supported. Use HELP to see commands\n", c)
 			}
 		}
 
