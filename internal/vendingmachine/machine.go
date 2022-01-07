@@ -80,9 +80,16 @@ func (v *VendingMachine) LimitReached(cCoins int) bool {
 // SelectProduct .
 func (v *VendingMachine) SelectProduct(name string) {
 	product := products.PrdFactory(name)
-	if v.currentCredit <= product.Price() {
+	if v.currentCredit < product.Price() {
 		fmt.Print("Price: " + fmt.Sprintf("%.2f", product.Price()) + "€\n")
 		fmt.Print("INSERT COIN\n\n")
+		return
+	}
+
+	err := v.CanMakeChange(product)
+
+	if err != nil {
+		fmt.Print("CANNOT BUY, EXACT CHANGE ONLY\n\n")
 		return
 	}
 
@@ -111,6 +118,16 @@ func (v *VendingMachine) DispenseProduct(p products.IProduct) {
 func (v *VendingMachine) MakeChange(productPrice float32) {
 	v.bank += productPrice
 	v.currentCredit = v.currentCredit - productPrice
+}
+
+func (v *VendingMachine) CanMakeChange(product products.IProduct) error {
+	_, err := v.CalculateChange(v.currentCredit - product.Price())
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (v *VendingMachine) CalculateChange(remainingCredit float32) (*Currency, error) {
@@ -170,19 +187,29 @@ func (v *VendingMachine) ReturnCoins() (*Currency, error) {
 func (v *VendingMachine) Display() string {
 	var output string
 
-	if v.currentCredit == 0 {
-		output += "INSERT COIN\n"
-	}
-
 	output += fmt.Sprintf("Credit: %.2f€\n\n", v.currentCredit)
 
+	hasChange := true
 	for _, product := range v.stock {
 		output += product.Name() + "\n"
 		output += "||  " + product.ExtraInformation() + "\n"
 		output += "||  Price: " + fmt.Sprintf("%.2f", product.Price()) + "€\n"
 		output += "||  Command: " + product.Command()
+		output += "\n"
 
-		output += "\n\n"
+		if hasChange == true {
+			err := v.CanMakeChange(product)
+			if err != nil {
+				hasChange = false
+			}
+		}
+	}
+
+	output += "\n"
+	if hasChange == true {
+		output += "INSERT COIN\n\n"
+	} else {
+		output += "EXACT CHANGE ONLY\n\n"
 	}
 
 	return output
@@ -219,8 +246,8 @@ func (v *VendingMachine) RetriveMoney() (*Currency, error) {
 	}
 
 	print("Quarters : ", quarterlReturned)
-	print("Dimers: ", dimeReturned)
-	print("Nickels: ", nickelReturned)
+	print("\nDimers: ", dimeReturned)
+	print("\nNickels: ", nickelReturned)
 
 	return &retriveCoins, nil
 
@@ -234,7 +261,7 @@ func (v *VendingMachine) ReturnCommands() {
 	fmt.Print("GET-COLA - Get Cola\n")
 	fmt.Print("GET-CHIPS - Get Chips\n")
 	fmt.Print("GET-CANDY - Get Candy\n")
-	fmt.Print("COIN RETURN - Get your coins back\n")
+	fmt.Print("COIN-RETURN - Get your coins back\n")
 	fmt.Print("RESTOCK - Vendor Restock of mnachine\n")
 	fmt.Print("RETRIVE-MONEY - Vendor Retrieve coins\n")
 	fmt.Print("HELP - This message\n\n")

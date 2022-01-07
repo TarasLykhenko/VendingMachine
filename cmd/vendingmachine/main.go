@@ -48,7 +48,7 @@ func main() {
 				vm.SelectProduct("CHIPS")
 			case "GET-CANDY":
 				vm.SelectProduct("CANDY")
-			case "COIN RETURN":
+			case "COIN-RETURN":
 				vm.ReturnCoins()
 			case "RESTOCK":
 				vm.RestockProducts()
