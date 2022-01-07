@@ -191,6 +191,7 @@ func (v *VendingMachine) Display() string {
 
 // RestockProducts .
 func (v *VendingMachine) RestockProducts() {
+
 }
 
 // RetriveMoney .

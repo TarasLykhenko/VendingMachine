@@ -9,6 +9,7 @@ type IProduct interface {
 	ExpirationDate() time.Time
 	Weight() float32
 	ExtraInformation() string
+	Quantity() int
 }
 
 type product struct {
@@ -18,10 +19,11 @@ type product struct {
 	expirationDate   time.Time
 	weight           float32
 	extraInformation string
+	quantity         int
 }
 
 // NewProduct creates a new product
-func NewProduct(name string, command string, price float32, expirationDate time.Time, weight float32, extraInformation string) *product {
+func NewProduct(name string, command string, price float32, expirationDate time.Time, weight float32, extraInformation string, quantity int) *product {
 	return &product{
 		name:             name,
 		command:          command,
@@ -29,6 +31,7 @@ func NewProduct(name string, command string, price float32, expirationDate time.
 		expirationDate:   expirationDate,
 		weight:           weight,
 		extraInformation: extraInformation,
+		quantity:         quantity,
 	}
 }
 
@@ -63,4 +66,7 @@ func (p *product) Weight() float32 {
 }
 func (p *product) ExtraInformation() string {
 	return p.extraInformation
+}
+func (p *product) Quantity() int {
+	return p.quantity
 }

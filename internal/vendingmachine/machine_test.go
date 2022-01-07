@@ -105,3 +105,5 @@ func TestRetriveMoney(t *testing.T) {
 		assert.Nil(t, err)
 	})
 }
+
+func TestRestockProduct()
