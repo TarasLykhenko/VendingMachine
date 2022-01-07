@@ -37,9 +37,9 @@ func PrdFactory(name string) IProduct {
 	case "COLA":
 		return NewCola()
 	case "CHIPS":
-		return NewChips("Bacon")
+		return NewChips("")
 	case "CANDY":
-		return NewCandy("Red")
+		return NewCandy("")
 	default:
 		return nil
 	}
